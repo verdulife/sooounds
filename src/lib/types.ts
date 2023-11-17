@@ -1,5 +1,5 @@
 export type CardData = {
-	fileRef: FileSystemFileHandle | null;
+	file: File | null;
 	label: string;
-	cardId: string;
+	card: string;
 };

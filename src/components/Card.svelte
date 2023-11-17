@@ -1,31 +1,30 @@
 <script lang="ts">
-	import type { CardData } from '@/lib/types';
-	import { getAudioURL, promptFile } from '@/lib/utils';
+	import { filePickerOptions, getFileURL } from '@/lib/utils';
+	import { set } from 'idb-keyval';
 
-	export let cardId: string;
-	export let data: CardData = {
-		fileRef: null,
-		label: 'Empty',
-		cardId
+	export let card: string;
+	export let data: { file: File | null; label: string } = {
+		file: null,
+		label: 'Empty card'
 	};
-
-	$: if (data.fileRef) data.fileRef.requestPermission();
 
 	async function defineCard() {
 		const label = prompt('Añade un nombre');
 		if (!label) return;
 
-		const { fileRef } = await promptFile({ label, cardId });
+		const [fileRef] = await showOpenFilePicker(filePickerOptions);
+		const file = await fileRef.getFile();
 
-		data = { fileRef, label, cardId };
+		data = { file, label };
+		await set(card, { file, label });
 	}
 </script>
 
-<button id={cardId} class="grid place-content-center w-full h-full border" on:click={defineCard}>
+<button class="grid place-content-center w-full h-full border" on:click={defineCard}>
 	<h1>{data.label}</h1>
 
-	{#if data.fileRef}
-		{#await getAudioURL(data.fileRef) then src}
+	{#if data.file}
+		{#await getFileURL(data.file) then src}
 			<audio {src} controls></audio>
 		{/await}
 	{/if}
