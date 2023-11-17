@@ -38,6 +38,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"idb-keyval": "^6.2.1"
+		"idb-keyval": "^6.2.1",
+		"play-dl": "^1.9.7"
 	}
 }
