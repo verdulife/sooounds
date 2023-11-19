@@ -1,8 +1,7 @@
 <script lang="ts">
 	import type { CardData } from '@/lib/types';
-
-	import Card from './Card.svelte';
 	import { cardsLayout } from '@/lib/cards';
+	import Card from './Card.svelte';
 
 	export let cards: Array<CardData>;
 
@@ -13,11 +12,11 @@
 	}
 </script>
 
-<main class="grid grid-cols-4 grid-rows-2 h-full p-8 gap-4">
+<main class="grid grid-cols-8 grid-rows-3 h-full p-8 gap-4">
 	{#if cards}
-		{#each cardsLayout as card}
-			<section class="col-span-1 row-span-1">
-				<Card {card} data={fetchData(card)}></Card>
+		{#each cardsLayout as { cardId, classes }}
+			<section class={classes}>
+				<Card card={cardId} data={fetchData(cardId)}></Card>
 			</section>
 		{/each}
 	{/if}

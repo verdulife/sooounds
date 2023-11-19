@@ -1,6 +1,4 @@
-import type { AudioControl } from './types';
-
-export async function getFileURL(file: File) {
+export function getFileURL(file: File) {
 	return URL.createObjectURL(file);
 }
 
